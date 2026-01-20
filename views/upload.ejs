@@ -1,0 +1,122 @@
+<% include ./partials/header.ejs %>
+
+<div class="fixed inset-0 top-[80px]
+            bg-black text-white
+            flex items-center justify-center
+            overflow-hidden">
+
+  <form
+    action="/users/upload"
+    method="POST"
+    enctype="multipart/form-data"
+    class="w-full max-w-6xl
+           grid grid-cols-1 md:grid-cols-2 gap-12
+           items-center px-8"
+  >
+
+    <!-- IMAGE UPLOAD BOX -->
+    <label
+      for="imageInput"
+      class="relative cursor-pointer
+             rounded-3xl
+             bg-zinc-900 border border-zinc-800
+             h-[420px]
+             flex flex-col items-center justify-center
+             hover:bg-zinc-800 transition"
+    >
+
+      <input
+        id="imageInput"
+        type="file"
+        name="image"
+        accept="image/*"
+        required
+        class="hidden"
+        onchange="handleImage(this)"
+      />
+
+      <!-- PREVIEW -->
+      <img
+        id="preview"
+        class="hidden absolute inset-0 w-full h-full object-cover rounded-3xl"
+      />
+
+      <!-- PLACEHOLDER -->
+      <div id="placeholder" class="text-center px-6">
+        <div class="mb-4 text-4xl">⬆️</div>
+        <p class="text-lg font-semibold">
+          Choose a file or drag and drop it here
+        </p>
+        <p class="text-sm text-zinc-400 mt-2">
+          JPG / PNG • less than 20MB
+        </p>
+      </div>
+    </label>
+
+    <!-- RIGHT SIDE -->
+    <div class="flex flex-col gap-6 max-w-xl">
+
+      <h1 class="text-2xl font-bold">
+        Create Pin
+      </h1>
+
+      <input
+        type="text"
+        name="title"
+        placeholder="Add your title"
+        required
+        class="bg-zinc-900 border border-zinc-800
+               rounded-xl px-4 py-3
+               text-white placeholder-zinc-500
+               focus:outline-none focus:ring-2 focus:ring-red-600"
+      />
+
+      <!-- FILE STATUS -->
+      <p id="fileStatus" class="text-sm text-zinc-400">
+        No file selected
+      </p>
+
+      <button
+        id="publishBtn"
+        type="submit"
+        disabled
+        class="bg-red-600/50 cursor-not-allowed
+               px-8 py-3 rounded-full
+               font-semibold w-fit transition"
+      >
+        Publish
+      </button>
+
+    </div>
+
+  </form>
+</div>
+
+<!-- SCRIPT -->
+<script>
+  function handleImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Show file name
+    document.getElementById("fileStatus").textContent =
+      "Selected: " + file.name;
+
+    // Enable publish
+    const btn = document.getElementById("publishBtn");
+    btn.disabled = false;
+    btn.classList.remove("cursor-not-allowed", "bg-red-600/50");
+    btn.classList.add("bg-red-600", "hover:bg-red-700");
+
+    // Preview image
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("preview").src = e.target.result;
+      document.getElementById("preview").classList.remove("hidden");
+      document.getElementById("placeholder").style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  }
+</script>
+
+<% include ./partials/footer.ejs %>

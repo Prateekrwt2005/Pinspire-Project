@@ -1,0 +1,61 @@
+<% include ./partials/header.ejs %>
+
+<div class="bg-gray-50 dark:bg-zinc-950 min-h-screen -mx-8 px-8 transition-colors duration-300">
+
+  <div class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-6">
+
+    <% pins.forEach(pin => { %>
+      <div class="mb-6 break-inside-avoid group">
+
+        <!-- IMAGE CARD -->
+        <div class="relative rounded-2xl overflow-hidden
+                    bg-gray-100 dark:bg-zinc-800
+                    transition-all duration-300
+                    group-hover:shadow-xl">
+
+          <img
+            src="/uploads/<%= pin.image %>"
+            class="w-full h-auto rounded-2xl object-contain
+                   transition-transform duration-300
+                   group-hover:scale-105"
+            loading="lazy"
+          />
+
+          <!-- SAVE BUTTON -->
+          <form
+            action="/users/save/<%= pin._id %>"
+            method="POST"
+            class="absolute top-3 right-3 opacity-0
+                   group-hover:opacity-100 transition"
+          >
+            <button
+              type="submit"
+              onclick="event.stopPropagation()"
+              class="bg-red-600 hover:bg-red-700
+                     text-white text-xs px-4 py-2
+                     rounded-full font-semibold shadow"
+            >
+              Save
+            </button>
+          </form>
+
+        </div>
+
+        <!-- TITLE -->
+        <p class="mt-2 text-sm font-semibold text-gray-900 dark:text-zinc-100">
+          <%= pin.title %>
+        </p>
+
+        <!-- USER -->
+        <p class="text-xs text-gray-500 dark:text-zinc-400">
+          by <%= pin.user.username %>
+        </p>
+
+      </div>
+    <% }) %>
+
+  </div>
+
+</div>
+
+<% include ./partials/footer.ejs %>

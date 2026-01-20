@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pinterest Clone</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Enable dark mode -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+</head>
+
+<body class="bg-gray-50 dark:bg-zinc-950 transition-colors duration-300">
+
+<header class="bg-white dark:bg-zinc-900 fixed top-0 w-full z-50 border-b border-gray-200 dark:border-zinc-800">
+  <div class="flex items-center gap-4 px-6 py-3">
+
+    <!-- LOGO -->
+    <a href="/feed">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/0/08/Pinterest-logo.png"
+        class="w-8"
+        alt="Pinterest"
+      />
+    </a>
+
+    <!-- SEARCH -->
+    <% if (user) { %>
+      <form action="/feed" method="GET" class="flex-1">
+        <input
+          type="text"
+          name="q"
+          placeholder="Search"
+          class="w-full bg-gray-100 dark:bg-zinc-800
+                 text-black dark:text-white
+                 rounded-full px-5 py-2 text-sm
+                 focus:outline-none"
+        />
+      </form>
+    <% } %>
+
+    <!-- CREATE / UPLOAD -->
+    <% if (user) { %>
+     <a
+  href="/upload"
+  class="bg-red-600 hover:bg-red-700
+         text-white px-5 py-2 rounded-full
+         text-sm font-semibold"
+>
+  Create
+</a>
+
+    <% } %>
+
+    <!-- PROFILE & LOGOUT -->
+    <% if (user) { %>
+      <a href="/users/profile" class="text-sm font-medium text-black dark:text-white">
+        Profile
+      </a>
+
+      <a href="/users/logout" class="text-sm font-medium text-red-600">
+        Logout
+      </a>
+    <% } %>
+
+    <!-- DARK MODE TOGGLE -->
+    <button
+      onclick="toggleDark()"
+      class="ml-2 px-3 py-1 rounded-full
+             bg-gray-200 dark:bg-zinc-700
+             text-black dark:text-white text-sm"
+      title="Toggle dark mode"
+    >
+      🌙
+    </button>
+
+  </div>
+</header>
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="pt-24 px-8">

@@ -1,0 +1,106 @@
+<% include ./partials/header.ejs %>
+
+<div class="max-w-6xl mx-auto px-6 py-10 text-white">
+
+  <!-- USER HEADER -->
+  <div class="flex flex-col items-center text-center mb-10">
+
+    <!-- AVATAR -->
+    <div class="w-28 h-28 rounded-full
+                bg-red-600 flex items-center justify-center
+                text-4xl font-bold">
+      <%= user.username[0].toUpperCase() %>
+    </div>
+
+    <h1 class="mt-4 text-2xl font-bold">
+      <%= user.username.toUpperCase() %>
+    </h1>
+
+    <p class="text-sm text-zinc-400">
+      <%= user.email %>
+    </p>
+
+    <p class="mt-2 text-sm text-zinc-400">
+     <%= createdPins ? createdPins.length : 0 %> created · <%= user.boards.length %> saved
+
+    </p>
+  </div>
+
+  <!-- TABS -->
+  <div class="flex justify-center gap-10 border-b border-zinc-800 mb-10">
+    <button onclick="showTab('created')" class="tab-btn font-semibold">
+      Created
+    </button>
+    <button onclick="showTab('saved')" class="tab-btn text-zinc-400">
+      Saved
+    </button>
+  </div>
+
+  <!-- CREATED PINS -->
+  <div id="created" class="tab-content">
+    <% if (createdPins.length === 0) { %>
+      <p class="text-center text-zinc-500">No pins created yet</p>
+    <% } %>
+
+    <div class="columns-2 sm:columns-3 md:columns-4 gap-6">
+      <% createdPins.forEach(pin => { %>
+        <div class="mb-6 break-inside-avoid">
+          <img
+            src="/uploads/<%= pin.image %>"
+            class="rounded-2xl w-full object-cover"
+          />
+          <p class="mt-2 text-sm font-semibold">
+            <%= pin.title %>
+          </p>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- SAVED PINS -->
+  <div id="saved" class="tab-content hidden">
+    <% if (user.boards.length === 0) { %>
+      <p class="text-center text-zinc-500">No saved pins yet</p>
+    <% } %>
+
+    <div class="columns-2 sm:columns-3 md:columns-4 gap-6">
+      <% user.boards.forEach(pin => { %>
+        <div class="mb-6 break-inside-avoid">
+          <img
+            src="/uploads/<%= pin.image %>"
+            class="rounded-2xl w-full object-cover"
+          />
+          <p class="mt-2 text-sm font-semibold">
+            <%= pin.title %>
+          </p>
+
+          <!-- REMOVE -->
+          <form action="/users/delete/<%= pin._id %>" method="POST">
+            <button class="text-xs text-red-500 mt-1">
+              Remove
+            </button>
+          </form>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+</div>
+
+<!-- TAB SCRIPT -->
+<script>
+  function showTab(tab) {
+    document.getElementById("created").classList.add("hidden");
+    document.getElementById("saved").classList.add("hidden");
+
+    document.getElementById(tab).classList.remove("hidden");
+
+    document.querySelectorAll(".tab-btn").forEach(btn =>
+      btn.classList.add("text-zinc-400")
+    );
+
+    event.target.classList.remove("text-zinc-400");
+  }
+</script>
+
+<% include ./partials/footer.ejs %>

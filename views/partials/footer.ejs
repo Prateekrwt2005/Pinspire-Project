@@ -1,0 +1,20 @@
+</div>
+
+<script>
+  const root = document.documentElement;
+
+  if (localStorage.getItem("theme") === "dark") {
+    root.classList.add("dark");
+  }
+
+  function toggleDark() {
+    root.classList.toggle("dark");
+    localStorage.setItem(
+      "theme",
+      root.classList.contains("dark") ? "dark" : "light"
+    );
+  }
+</script>
+
+</body>
+</html>

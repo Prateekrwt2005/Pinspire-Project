@@ -1,0 +1,19 @@
+@font-face {
+  font-family: grotesque;
+  src: url('C:\Users\250210\Desktop\pin\Gilroy-Medium.ttf') ;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+   font-family: grotesque;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;   /* 🔥 THIS STOPS SCROLL */
+}
+
